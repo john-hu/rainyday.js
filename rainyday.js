@@ -40,7 +40,13 @@ function RainyDay(options, canvas) {
 		}
 	}
 	this.options = options;
+	this.reset(canvas);
+}
 
+RainyDay.prototype.reset = function(canvas) {
+	if (this.canvas) {
+		this.options.parentElement.removeChild(this.canvas);
+	}
 	this.drops = [];
 
 	// prepare canvas elements
@@ -54,9 +60,11 @@ function RainyDay(options, canvas) {
 	this.gravity = this.GRAVITY_NON_LINEAR;
 	this.collision = this.COLLISION_SIMPLE;
 
+	this.stopped = false;
+
 	// set polyfill of requestAnimationFrame
 	this.setRequestAnimFrame();
-}
+};
 
 /**
  * Create the main canvas over a given element
@@ -129,7 +137,22 @@ RainyDay.prototype.animateDrops = function() {
 		}
 	}
 	this.drops = newDrops;
-	window.requestAnimFrame(this.animateDrops.bind(this));
+	if (this.stopped) {
+		if (this.stoppedCallback) {
+			this.stoppedCallback();
+		} else {
+			this.clearAllDrops();
+		}
+	} else {
+		window.requestAnimFrame(this.animateDrops.bind(this));
+	}
+};
+
+RainyDay.prototype.clearAllDrops = function() {
+	this.drops.forEach(function(drop) {
+		drop.clear(true);
+	});
+	this.drops = [];
 };
 
 /**
