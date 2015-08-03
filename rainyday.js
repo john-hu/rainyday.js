@@ -47,7 +47,8 @@ RainyDay.prototype.reset = function(canvas) {
 	if (this.canvas) {
 		this.options.parentElement.removeChild(this.canvas);
 	}
-	this.drops = [];
+
+	this.clearAllDrops();
 
 	// prepare canvas elements
 	this.canvas = canvas || this.prepareCanvas();
