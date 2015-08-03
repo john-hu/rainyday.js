@@ -99,8 +99,8 @@ RainyDay.prototype.setResizeHandler = function() {
  * Periodically check the size of the underlying element
  */
 RainyDay.prototype.checkSize = function() {
-	var clientWidth = this.img.clientWidth;
-	var clientHeight = this.img.clientHeight;
+	var clientWidth = this.options.width;
+	var clientHeight = this.options.height;
 	var clientOffsetLeft = this.img.offsetLeft;
 	var clientOffsetTop = this.img.offsetTop;
 	var canvasWidth = this.canvas.width;
@@ -150,7 +150,7 @@ RainyDay.prototype.animateDrops = function() {
 };
 
 RainyDay.prototype.clearAllDrops = function() {
-	this.drops.forEach(function(drop) {
+	this.drops && this.drops.forEach(function(drop) {
 		drop.clear(true);
 	});
 	this.drops = [];
